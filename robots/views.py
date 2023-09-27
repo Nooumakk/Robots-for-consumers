@@ -32,7 +32,7 @@ class RobotDetailView(View):
     def get(self, request):
         current_date = datetime.now()
         one_week_ago = current_date - timedelta(weeks=1)
-        robots = Robot.objects.filter(created__gte=one_week_ago).order_by("model").values("model", "version")
+        robots = Robot.objects.filter(created__gte=one_week_ago).values("model", "version")
         models = set([model["model"] for model in robots])
         workbook = openpyxl.Workbook()
         for model in models:
