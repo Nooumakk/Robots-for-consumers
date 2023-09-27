@@ -38,7 +38,6 @@ class RobotDetailView(View):
         for model in models:
             sheet = workbook.create_sheet(model)
 
-            # Добавьте данные в лист (замените этот код на свою логику)
             sheet["A1"] = "Model"
             sheet["B1"] = "Version"
             sheet["C1"] = "Quantity per week"
