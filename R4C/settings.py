@@ -82,3 +82,11 @@ USE_L10N = True
 STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SMPT_HOST = os.getenv("SMPT_HOST")
+SMPT_PORT = os.getenv("SMPT_PORT")
+SMPT_EMAIL = os.getenv("SMPT_EMAIL")
+SMPT_PASSWORD = os.getenv("SMPT_PASSWORD")
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
