@@ -16,7 +16,7 @@ class Robot(models.Model):
 @receiver(pre_save, sender=Robot)
 def robot_pre_save(sender, instance: Robot, **kwargs):
     instance.model = instance.model.upper()
-    instance.model = instance.version.upper()
+    instance.version = instance.version.upper()
     # created_datetime = datetime.strptime(str(instance.created), "%Y-%m-%d %H:%M:%S")
     # instance.created = timezone.make_aware(created_datetime, timezone=timezone.get_current_timezone())
     instance.serial = f"{instance.model}-{instance.version}"

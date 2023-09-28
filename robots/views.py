@@ -33,22 +33,28 @@ class RobotDetailView(View):
         current_date = datetime.now()
         one_week_ago = current_date - timedelta(weeks=1)
         robots = Robot.objects.filter(created__gte=one_week_ago).values("model", "version")
-        models = set([model["model"] for model in robots])
+        models = set([robot["model"] for robot in robots])
         workbook = openpyxl.Workbook()
         for model in models:
             sheet = workbook.create_sheet(model)
 
-            sheet["A1"] = "Model"
-            sheet["B1"] = "Version"
-            sheet["C1"] = "Quantity per week"
+            sheet["A1"] = "Модель"
+            sheet["B1"] = "Версия"
+            sheet["C1"] = "Количество за неделю"
 
-            # created = timezone.make_aware(one_week_ago, timezone=timezone.get_current_timezone())
-            count = 0
-            for robot in robots:
-                if robot["model"] == model:
-                    count += 1
-                    continue
-            sheet.append([model, robot["version"], count])
+            model_robots = robots.filter(model=model)
+            version_counts = {}
+
+            for robot in model_robots:
+                version = robot["version"]
+                if version in version_counts:
+                    version_counts[version] += 1
+                else:
+                    version_counts[version] = 1
+
+            data_to_append = [[model, version, count] for version, count in version_counts.items()]
+            for row_data in data_to_append:
+                sheet.append(row_data)
 
         file_name = "example.xlsx"
 
