@@ -17,10 +17,10 @@ class Order(models.Model):
 def order_pre_save(sender, instance: Order, **kwargs):
     from robots.models import Robot
 
-    instance.serial = instance.robot_serial.upper()
+    instance.robot_serial = instance.robot_serial.upper()
     robot = Robot.objects.filter(serial=instance.robot_serial).first()
     if robot:
-        subject = f"Заказ для робота {instance.serial}"
+        subject = f"Заказ для робота {instance.robot_serial}"
         message = f"Добрый день!\nНедавно вы интересовались нашим роботом модели {robot.model}, версии {robot.version}. Этот робот теперь в наличии. Если вам подходит этот вариант - пожалуйста, свяжитесь с нами."
         recipient_list = instance.customer.email
 
